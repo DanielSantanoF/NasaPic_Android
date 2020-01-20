@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">NasaPic</string>
+    <string name="text_historic">Histórico</string>
+    <string name="content_description_icon_select_date">Icono para seleccionar una fecha especifica</string>
+    <string name="content_description_image_from_api">Imagen diaria de la nasa desde su api</string>
+    <string name="content_description_image_view">Imagen de la nasa cargada desde la aplicación</string>
+</resources>

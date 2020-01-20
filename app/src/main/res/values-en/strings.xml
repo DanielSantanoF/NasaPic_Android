@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">NasaPic</string>
+    <string name="text_historic">Historic</string>
+    <string name="content_description_icon_select_date">Icon for select date imageButton</string>
+    <string name="content_description_image_from_api">Daily image loaded from the nasa api</string>
+    <string name="content_description_image_view">Image of the nasa loaded by the app</string>
+</resources>
