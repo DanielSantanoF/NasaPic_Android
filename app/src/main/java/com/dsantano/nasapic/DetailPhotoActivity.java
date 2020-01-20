@@ -19,7 +19,7 @@ public class DetailPhotoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_photo);
 
-        ivPhoto = findViewById(R.id.imageViewPhoto);
+        ivPhoto = findViewById(R.id.imageViewPhotoHistoric);
 
         photo = Objects.requireNonNull(getIntent().getExtras()).getString("photoUrl");
 

@@ -75,7 +75,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             i.putExtra("selectedDate", "2020-01-01");
             startActivity(i);
         } if(id == R.id.buttonHistoric){
-
+            Intent i = new Intent(
+                    MainActivity.this,
+                    HistoricActivity.class
+            );
+            startActivity(i);
         }
     }
 
