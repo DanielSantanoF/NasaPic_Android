@@ -16,6 +16,9 @@ import com.bumptech.glide.Glide;
 import com.dsantano.nasapic.api.NasaApi;
 import com.dsantano.nasapic.api.NasaPicture;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     String apiKey = "vOn6qgqSS0M84sxymRERfRPyAjMc9M9DF6kZ43AS";
@@ -75,10 +78,33 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             i.putExtra("selectedDate", "2020-01-01");
             startActivity(i);
         } if(id == R.id.buttonHistoric){
+            LocalDateTime todayDate = LocalDateTime.now();
+            int day = todayDate.getDayOfMonth();
+            String dayString = "";
+            int year = todayDate.getYear();
+            int month = todayDate.getMonthValue();
+            String monthString = "";
+            int monthAgo = month -1;
+            String monthAgoString = "";
+            if(day == 1 || day == 2 || day == 3 || day == 4 || day == 5 || day == 6 || day == 7 || day == 8 || day == 9){
+                dayString = "0" + day;
+            } else if(month == 1 || month == 2 || month == 3 || month == 4 || month == 5 || month == 6 || month == 7 || month == 8 || month == 9){
+                monthString = "0" + month;
+                if(monthAgo == 0){
+                    monthAgo = 12;
+                    monthAgoString = String.valueOf(monthAgo);
+                } else {
+                    monthAgoString = "0" + month;
+                }
+            }
+            String today = year + "-" + monthString + "-" + dayString;
+            String monthAgoDay = year + "-" + monthAgoString + "-" + dayString;
             Intent i = new Intent(
                     MainActivity.this,
                     HistoricActivity.class
             );
+            i.putExtra("dateOfToday", today);
+            i.putExtra("dateOfMonthAgo", monthAgoDay);
             startActivity(i);
         }
     }
