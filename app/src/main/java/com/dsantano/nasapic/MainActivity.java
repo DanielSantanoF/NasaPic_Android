@@ -16,8 +16,6 @@ import com.bumptech.glide.Glide;
 import com.dsantano.nasapic.api.NasaApi;
 import com.dsantano.nasapic.api.NasaPicture;
 
-import java.time.LocalDateTime;
-
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     String apiKey = "vOn6qgqSS0M84sxymRERfRPyAjMc9M9DF6kZ43AS";
