@@ -3,6 +3,7 @@ package com.dsantano.nasapic;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,7 @@ public class MyNasaPictureRecyclerViewAdapter extends RecyclerView.Adapter<MyNas
     private Context ctx;
     private int layoutPlantilla;
     private List<NasaPicture> mValues;
+    private INasaPictureListener mListener;
 
     public MyNasaPictureRecyclerViewAdapter(Context ctx, int layoutPlantilla, List<NasaPicture> mValues) {
         this.ctx = ctx;
@@ -45,6 +47,22 @@ public class MyNasaPictureRecyclerViewAdapter extends RecyclerView.Adapter<MyNas
                 .load(holder.mItem.getUrl())
                 .thumbnail(Glide.with(ctx).load(R.drawable.loading_killer_whale_gif).centerCrop())
                 .into(holder.ivPhoto);
+
+        holder.mView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                    Intent intent = new Intent(
+                            ctx,
+                            PhotoDetailsActivity.class
+                    );
+                    intent.putExtra("nasaPhotoSelected", holder.mItem.getUrl());
+                    intent.putExtra("nasaTittleSelected", holder.mItem.getTitle());
+                    intent.putExtra("nasaDescriptionSelected", holder.mItem.getExplanation());
+                    intent.putExtra("nasaDateSelected", holder.mItem.getDate());
+                    ctx.startActivity(intent);
+            }
+        });
+
     }
 
     @Override

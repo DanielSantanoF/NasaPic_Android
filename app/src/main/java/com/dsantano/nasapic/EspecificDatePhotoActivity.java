@@ -7,8 +7,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -35,7 +33,7 @@ public class EspecificDatePhotoActivity extends AppCompatActivity {
 
         new DownloadEspecificPhotoFromApi().execute();
 
-        ivphoto = findViewById(R.id.imageViewFromApi);
+        ivphoto = findViewById(R.id.imageViewPhotoDetail);
         ivphoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -63,10 +61,10 @@ public class EspecificDatePhotoActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(NasaPicture nasaPicture) {
-            txtTittle = findViewById(R.id.textViewTittle);
-            txtDescription = findViewById(R.id.textViewDescription);
-            txtdate = findViewById(R.id.textViewDate);
-            ivphoto = findViewById(R.id.imageViewFromApi);
+            txtTittle = findViewById(R.id.textViewPhotoDetailTittle);
+            txtDescription = findViewById(R.id.textViewPhotoDetailDescription);
+            txtdate = findViewById(R.id.textViewPhotoDetailDate);
+            ivphoto = findViewById(R.id.imageViewPhotoDetail);
 
 //            photoUrl = nasaPicture.getUrl();
 //            txtTittle.setText(nasaPicture.getTitle());

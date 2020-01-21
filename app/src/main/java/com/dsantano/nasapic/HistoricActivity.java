@@ -15,9 +15,8 @@ public class HistoricActivity extends AppCompatActivity implements INasaPictureL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_historic);
-
-        today = Objects.requireNonNull(getIntent().getExtras()).getString("dateOfToday");
-        monthAgoToday = Objects.requireNonNull(getIntent().getExtras()).getString("dateOfMonthAgo");
+        //today = Objects.requireNonNull(getIntent().getExtras()).getString("dateOfToday");
+        //monthAgoToday = Objects.requireNonNull(getIntent().getExtras()).getString("dateOfMonthAgo");
     }
 
     @Override

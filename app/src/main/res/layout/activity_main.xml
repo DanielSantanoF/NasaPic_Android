@@ -46,7 +46,7 @@
         app:layout_constraintTop_toTopOf="@+id/guideline" />
 
     <ImageView
-        android:id="@+id/imageViewFromApi"
+        android:id="@+id/imageViewPhotoDetail"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:contentDescription="@string/content_description_image_from_api"
@@ -65,7 +65,7 @@
         app:layout_constraintGuide_percent="0.60465115" />
 
     <TextView
-        android:id="@+id/textViewDate"
+        android:id="@+id/textViewPhotoDetailDate"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:gravity="right"
@@ -85,7 +85,7 @@
         app:layout_constraintGuide_percent="0.67" />
 
     <TextView
-        android:id="@+id/textViewTittle"
+        android:id="@+id/textViewPhotoDetailTittle"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:text="TextView"
@@ -97,7 +97,7 @@
         app:layout_constraintTop_toTopOf="@+id/guideline6" />
 
     <TextView
-        android:id="@+id/textViewDescription"
+        android:id="@+id/textViewPhotoDetailDescription"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:text="TextView"
