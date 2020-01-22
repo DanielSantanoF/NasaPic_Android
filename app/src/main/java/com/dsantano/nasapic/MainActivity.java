@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     ImageButton btnDate;
     Button btnHistoric;
     NasaApi api = new NasaApi(apiKey);
-    String photoUrl, dateSelected, dayString, monthString;
+    String photoUrl, dateSelected;
     DialogFragment datePickerFragment = DialogDatePickerFragment.newInstance(this);
 
     @Override
@@ -101,9 +101,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         @Override
         protected NasaPicture doInBackground(Void... voids) {
-            //result = api.getPicOfToday();
-            //return result;
-            return null;
+            result = api.getPicOfToday();
+            return result;
+            //return null;
         }
 
         @Override

@@ -31,7 +31,6 @@ public class EspecificDatePhotoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_especific_date_photo);
 
         photoDate = Objects.requireNonNull(getIntent().getExtras()).getString("selectedDate");
-        Toast.makeText(this, photoDate, Toast.LENGTH_LONG).show();
 
         new DownloadEspecificPhotoFromApi().execute();
 

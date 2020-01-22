@@ -45,7 +45,7 @@ public class MyNasaPictureRecyclerViewAdapter extends RecyclerView.Adapter<MyNas
         Glide
                 .with(ctx)
                 .load(holder.mItem.getUrl())
-                .error(R.drawable.ic_no_image_loaded)
+                .error(R.drawable.ic_art_and_design)
                 .thumbnail(Glide.with(ctx).load(R.drawable.loading_killer_whale_gif).centerCrop())
                 .into(holder.ivPhoto);
 
