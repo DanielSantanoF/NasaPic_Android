@@ -26,6 +26,7 @@ public class DetailPhotoActivity extends AppCompatActivity {
         Glide
                     .with(this)
                     .load(photo)
+                    .error(R.drawable.ic_no_image_loaded)
                     .thumbnail(Glide.with(this).load(R.drawable.loading_killer_whale_gif).centerCrop())
                     .into(ivPhoto);
     }

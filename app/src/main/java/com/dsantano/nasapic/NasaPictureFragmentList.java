@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.dsantano.nasapic.api.NasaApi;
 import com.dsantano.nasapic.api.NasaPicture;
@@ -36,7 +37,7 @@ public class NasaPictureFragmentList extends Fragment {
 
     RecyclerView recyclerView;
     Context context;
-    String today, monthAgoDay;
+    String todayDateString, MonthAgoDateString;
 
     private int mColumnCount = 2;
 
@@ -97,35 +98,15 @@ public class NasaPictureFragmentList extends Fragment {
         protected void onPreExecute() {
             DateTimeFormatter format = DateTimeFormat.forPattern("yyyy-MM-dd");
             LocalDate todayDate = LocalDate.now();
-            String todayDateString = todayDate.toString(format);
-            int day = todayDate.getDayOfMonth();
-            String dayString = "";
-            int year = todayDate.getYear();
-            int month = todayDate.getMonthOfYear();
-            int monthAgo = month -1;
-            String monthAgoString = "";
-            if(day == 1 || day == 2 || day == 3 || day == 4 || day == 5 || day == 6 || day == 7 || day == 8 || day == 9){
-                dayString = "0" + day;
-            }
-                if(monthAgo == 0){
-                    monthAgo = 12;
-                    monthAgoString = String.valueOf(monthAgo);
-                } else {
-                    if(monthAgo == 11 || monthAgo == 10){
-                    } else {
-                        monthAgoString = "0" + month;
-                    }
-                }
-
-            //today = todayDateString;
-            today = year + "-" + month + "-" + dayString;
-            monthAgoDay = "2019-" + monthAgoString + "-" + dayString;
+            todayDateString = todayDate.toString(format);
+            LocalDate monthAgoDate = todayDate.minusMonths(1);
+            MonthAgoDateString = monthAgoDate.toString(format);
+            //Toast.makeText(context, todayDateString + " " + MonthAgoDateString, Toast.LENGTH_LONG).show();
         }
 
         @Override
         protected List<NasaPicture> doInBackground(Void... voids) {
-            //result = api.getPicOfDateInterval("01-01-2020","06-01-2020");
-            //result = api.getPicOfDateInterval(monthAgoDay,today);
+            //result = api.getPicOfDateInterval(MonthAgoDateString,todayDateString);
             result = api.getPicOfDateInterval("2020-01-17","2020-01-21");
             return result;
             //return null;

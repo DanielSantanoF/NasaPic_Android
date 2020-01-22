@@ -9,6 +9,7 @@ import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.dsantano.nasapic.api.NasaApi;
@@ -30,6 +31,7 @@ public class EspecificDatePhotoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_especific_date_photo);
 
         photoDate = Objects.requireNonNull(getIntent().getExtras()).getString("selectedDate");
+        Toast.makeText(this, photoDate, Toast.LENGTH_LONG).show();
 
         new DownloadEspecificPhotoFromApi().execute();
 
@@ -54,9 +56,8 @@ public class EspecificDatePhotoActivity extends AppCompatActivity {
 
         @Override
         protected NasaPicture doInBackground(Void... voids) {
-//            result = api.getPicOfAnyDate(photoDate);
-//            return result;
-            return null;
+            result = api.getPicOfAnyDate(photoDate);
+            return result;
         }
 
         @Override
@@ -66,25 +67,15 @@ public class EspecificDatePhotoActivity extends AppCompatActivity {
             txtdate = findViewById(R.id.textViewPhotoDetailDate);
             ivphoto = findViewById(R.id.imageViewPhotoDetail);
 
-//            photoUrl = nasaPicture.getUrl();
-//            txtTittle.setText(nasaPicture.getTitle());
-//            txtdate.setText(nasaPicture.getDate());
-//            txtDescription.setText(nasaPicture.getExplanation());
-//            txtDescription.setMovementMethod(new ScrollingMovementMethod());
-//            Glide
-//                    .with(EspecificDatePhotoActivity.this)
-//                    .load(nasaPicture.getUrl())
-//                    .thumbnail(Glide.with(EspecificDatePhotoActivity.this).load(R.drawable.loading_killer_whale_gif).centerCrop())
-//                    .into(ivphoto);
-
-            photoUrl = "https://apod.nasa.gov/apod/image/2001/QuadrantidsOrion_Horalek_960_annotated.jpg";
-            txtTittle.setText("Quadrantid Meteors through Orion");
-            txtdate.setText("2020 January 20");
-            txtDescription.setText("Why are these meteor trails nearly parallel? Because they were all shed by the same space rock and so can be traced back to the same direction on the sky: the radiant of the Quadrantid Meteor Shower. This direction used to be toward the old constellation of Quadrans Muralis, hence the name Quadrantids, but when the International Astronomical Union formulated its list of modern constellations in 1922, this constellation did not make the list. Even though the meteors are now considered to originate from the recognized constellation of Bootes, the old name stuck. Regardless of the designation, every January the Earth moves through a dust stream and bits of this dust glow as meteors as they heat up in Earth's atmosphere. The featured image composite was taken on January 4 with a picturesque snowy Slovakian landscape in the foreground, and a deep-exposure sky prominently featuring the constellation Orion in the background. The red star Betelgeuse appears unusually dim -- its fading over the past few months is being tracked by astronomers.");
+            photoUrl = nasaPicture.getUrl();
+            txtTittle.setText(nasaPicture.getTitle());
+            txtdate.setText(nasaPicture.getDate());
+            txtDescription.setText(nasaPicture.getExplanation());
             txtDescription.setMovementMethod(new ScrollingMovementMethod());
             Glide
                     .with(EspecificDatePhotoActivity.this)
-                    .load("https://apod.nasa.gov/apod/image/2001/QuadrantidsOrion_Horalek_960_annotated.jpg")
+                    .load(nasaPicture.getUrl())
+                    .error(R.drawable.ic_no_image_loaded)
                     .thumbnail(Glide.with(EspecificDatePhotoActivity.this).load(R.drawable.loading_killer_whale_gif).centerCrop())
                     .into(ivphoto);
         }

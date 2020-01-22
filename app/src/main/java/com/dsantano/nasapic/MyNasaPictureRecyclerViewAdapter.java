@@ -45,13 +45,13 @@ public class MyNasaPictureRecyclerViewAdapter extends RecyclerView.Adapter<MyNas
         Glide
                 .with(ctx)
                 .load(holder.mItem.getUrl())
+                .error(R.drawable.ic_no_image_loaded)
                 .thumbnail(Glide.with(ctx).load(R.drawable.loading_killer_whale_gif).centerCrop())
                 .into(holder.ivPhoto);
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //if (null != mListener) {
                     Intent intent = new Intent(
                             ctx,
                             PhotoDetailsActivity.class
@@ -61,7 +61,6 @@ public class MyNasaPictureRecyclerViewAdapter extends RecyclerView.Adapter<MyNas
                     intent.putExtra("nasaDescriptionSelected", holder.mItem.getExplanation());
                     intent.putExtra("nasaDateSelected", holder.mItem.getDate());
                     ctx.startActivity(intent);
-                    //mListener.onNasaPictureItemClick(holder.mItem);
                 }
             //}
         });
