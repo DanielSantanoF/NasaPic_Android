@@ -6,4 +6,5 @@
     <string name="content_description_image_from_api">Daily image loaded from the nasa api</string>
     <string name="content_description_image_view">Image of the nasa loaded by the app</string>
     <string name="valid_date_toast_msg">Select a valid date</string>
+    <string name="progress_dialog_msg">Loading data</string>
 </resources>

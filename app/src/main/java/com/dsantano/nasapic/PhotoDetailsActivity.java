@@ -29,10 +29,10 @@ public class PhotoDetailsActivity extends AppCompatActivity {
         description = Objects.requireNonNull(getIntent().getExtras()).getString("nasaDescriptionSelected");
         date = Objects.requireNonNull(getIntent().getExtras()).getString("nasaDateSelected");
 
-        ivPhoto = findViewById(R.id.imageViewPhotoDetail);
-        txtTittle = findViewById(R.id.textViewPhotoDetailTittle);
-        txtDate = findViewById(R.id.textViewPhotoDetailDate);
-        txtDescription = findViewById(R.id.textViewPhotoDetailDescription);
+        ivPhoto = findViewById(R.id.imageViewPhotoNasaPic);
+        txtTittle = findViewById(R.id.textViewPhotoTittleNasaPic);
+        txtDate = findViewById(R.id.textViewPhotoNasaPic);
+        txtDescription = findViewById(R.id.textViewPhotoDescriptionNasaPic);
         txtDescription.setMovementMethod(new ScrollingMovementMethod());
 
         txtTittle.setText(tittle);
@@ -41,7 +41,7 @@ public class PhotoDetailsActivity extends AppCompatActivity {
         Glide
                 .with(this)
                 .load(photoUrl)
-                .error(R.drawable.ic_no_image_loaded)
+                .error(Glide.with(PhotoDetailsActivity.this).load(R.drawable.ic_no_image_loaded))
                 .thumbnail(Glide.with(this).load(R.drawable.loading_killer_whale_gif).centerCrop())
                 .into(ivPhoto);
 

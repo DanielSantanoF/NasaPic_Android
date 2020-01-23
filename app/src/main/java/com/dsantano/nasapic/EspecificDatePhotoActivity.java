@@ -3,13 +3,14 @@ package com.dsantano.nasapic;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.dsantano.nasapic.api.NasaApi;
@@ -24,26 +25,35 @@ public class EspecificDatePhotoActivity extends AppCompatActivity {
     ImageView ivphoto;
     NasaApi api = new NasaApi(apiKey);
     String photoDate, photoUrl;
+    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_especific_date_photo);
 
+        progressBar = findViewById(R.id.progressBarLoadingFullNasaPic);
+
         photoDate = Objects.requireNonNull(getIntent().getExtras()).getString("selectedDate");
 
         new DownloadEspecificPhotoFromApi().execute();
 
-        ivphoto = findViewById(R.id.imageViewPhotoDetail);
+        ivphoto = findViewById(R.id.imageViewPhotoNasaPic);
         ivphoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(
-                        EspecificDatePhotoActivity.this,
-                        DetailPhotoActivity.class
-                );
-                i.putExtra("photoUrl", photoUrl);
-                startActivity(i);
+                if(photoUrl.contains("https://www.youtube.com")){
+                    Intent webIntent = new Intent(Intent.ACTION_VIEW,
+                            Uri.parse(photoUrl));
+                    EspecificDatePhotoActivity.this.startActivity(webIntent);
+                } else {
+                    Intent i = new Intent(
+                            EspecificDatePhotoActivity.this,
+                            DetailPhotoActivity.class
+                    );
+                    i.putExtra("photoUrl", photoUrl);
+                    startActivity(i);
+                }
             }
         });
 
@@ -54,6 +64,18 @@ public class EspecificDatePhotoActivity extends AppCompatActivity {
         NasaPicture result;
 
         @Override
+        protected void onPreExecute() {
+            txtTittle = findViewById(R.id.textViewPhotoTittleNasaPic);
+            txtDescription = findViewById(R.id.textViewPhotoDescriptionNasaPic);
+            txtdate = findViewById(R.id.textViewPhotoNasaPic);
+            ivphoto = findViewById(R.id.imageViewPhotoNasaPic);
+            txtTittle.setVisibility(View.GONE);
+            txtDescription.setVisibility(View.GONE);
+            txtdate.setVisibility(View.GONE);
+            ivphoto.setVisibility(View.GONE);
+        }
+
+        @Override
         protected NasaPicture doInBackground(Void... voids) {
             result = api.getPicOfAnyDate(photoDate);
             return result;
@@ -61,22 +83,40 @@ public class EspecificDatePhotoActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(NasaPicture nasaPicture) {
-            txtTittle = findViewById(R.id.textViewPhotoDetailTittle);
-            txtDescription = findViewById(R.id.textViewPhotoDetailDescription);
-            txtdate = findViewById(R.id.textViewPhotoDetailDate);
-            ivphoto = findViewById(R.id.imageViewPhotoDetail);
+            progressBar.setVisibility(View.GONE);
+            txtTittle.setVisibility(View.VISIBLE);
+            txtDescription.setVisibility(View.VISIBLE);
+            txtdate.setVisibility(View.VISIBLE);
+            ivphoto.setVisibility(View.VISIBLE);
+
+            txtTittle = findViewById(R.id.textViewPhotoTittleNasaPic);
+            txtDescription = findViewById(R.id.textViewPhotoDescriptionNasaPic);
+            txtdate = findViewById(R.id.textViewPhotoNasaPic);
+            ivphoto = findViewById(R.id.imageViewPhotoNasaPic);
 
             photoUrl = nasaPicture.getUrl();
             txtTittle.setText(nasaPicture.getTitle());
             txtdate.setText(nasaPicture.getDate());
             txtDescription.setText(nasaPicture.getExplanation());
             txtDescription.setMovementMethod(new ScrollingMovementMethod());
-            Glide
-                    .with(EspecificDatePhotoActivity.this)
-                    .load(nasaPicture.getUrl())
-                    .error(R.drawable.ic_no_image_loaded)
-                    .thumbnail(Glide.with(EspecificDatePhotoActivity.this).load(R.drawable.loading_killer_whale_gif).centerCrop())
-                    .into(ivphoto);
+            if(photoUrl.contains("www.youtube")) {
+                String urlThumbnailYoutube = photoUrl.split("/")[4];
+                String thumbnailId = urlThumbnailYoutube.split("\\?")[0];
+                String youtubeUrl = "https://img.youtube.com/vi/" + thumbnailId +"/hqdefault.jpg";
+                Glide
+                        .with(EspecificDatePhotoActivity.this)
+                        .load(youtubeUrl)
+                        .error(Glide.with(EspecificDatePhotoActivity.this).load(R.drawable.ic_youtube_logo))
+                        .thumbnail(Glide.with(EspecificDatePhotoActivity.this).load(R.drawable.loading_killer_whale_gif).centerCrop())
+                        .into(ivphoto);
+            } else {
+                Glide
+                        .with(EspecificDatePhotoActivity.this)
+                        .load(nasaPicture.getUrl())
+                        .error(Glide.with(EspecificDatePhotoActivity.this).load(R.drawable.ic_no_image_loaded))
+                        .thumbnail(Glide.with(EspecificDatePhotoActivity.this).load(R.drawable.loading_killer_whale_gif).centerCrop())
+                        .into(ivphoto);
+            }
         }
     }
 }

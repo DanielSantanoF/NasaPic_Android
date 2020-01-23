@@ -1,5 +1,6 @@
 package com.dsantano.nasapic;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -25,6 +26,7 @@ import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -44,10 +46,10 @@ public class NasaPictureFragmentList extends Fragment {
     LinearLayoutManager manager;
     Boolean isScrolling = false;
     int currentItems, totalItems, scrolOutItems;
-    int countMonthsAgo = 1;
     ProgressBar progressBar;
     MyNasaPictureRecyclerViewAdapter adapter;
     LocalDate todayDate, monthAgoDate, controlDate;
+    ProgressDialog pDialog;
 
     private int mColumnCount = 2;
 
@@ -112,7 +114,7 @@ public class NasaPictureFragmentList extends Fragment {
             todayDateString = todayDate.toString(format);
             monthAgoDate = todayDate.minusMonths(1);
             monthAgoDateString = monthAgoDate.toString(format);
-            countMonthsAgo = countMonthsAgo +1;
+            showProgressDialog();
         }
 
         @Override
@@ -123,6 +125,8 @@ public class NasaPictureFragmentList extends Fragment {
 
         @Override
         protected void onPostExecute(final List<NasaPicture> list) {
+            pDialog.hide();
+            Collections.reverse(list);
             listNasaPictures.addAll(list);
 
             adapter = new MyNasaPictureRecyclerViewAdapter(
@@ -149,6 +153,11 @@ public class NasaPictureFragmentList extends Fragment {
 
                     if(isScrolling && (currentItems + scrolOutItems == totalItems)){
                         isScrolling = false;
+                        DateTimeFormatter format = DateTimeFormat.forPattern("yyyy-MM-dd");
+                        controlDate = monthAgoDate.minusDays(1);
+                        controlDateString = controlDate.toString(format);
+                        monthAgoDate = monthAgoDate.minusMonths(1);
+                        monthAgoDateString = monthAgoDate.toString(format);
                         new FetchData().execute();
                     }
                 }
@@ -164,26 +173,28 @@ public class NasaPictureFragmentList extends Fragment {
         protected void onPreExecute() {
             progressBar = getActivity().findViewById(R.id.progressBarHistoric);
             progressBar.setVisibility(View.VISIBLE);
-            countMonthsAgo = countMonthsAgo +1;
         }
 
         @Override
         protected List<NasaPicture> doInBackground(Void... voids) {
-            DateTimeFormatter format = DateTimeFormat.forPattern("yyyy-MM-dd");
-            controlDate = monthAgoDate;
-            monthAgoDate = monthAgoDate.minusMonths(1);
-            monthAgoDateString = monthAgoDate.toString(format);
-            controlDateString = monthAgoDate.toString(format);
             result = api.getPicOfDateInterval(monthAgoDateString,controlDateString);
             return result;
         }
 
         @Override
-        protected void onPostExecute(List<NasaPicture> n) {
-            listNasaPictures.addAll(n);
+        protected void onPostExecute(List<NasaPicture> list) {
+            Collections.reverse(list);
+            listNasaPictures.addAll(list);
             progressBar.setVisibility(View.GONE);
             adapter.notifyDataSetChanged();
         }
+    }
+
+    public void showProgressDialog(){
+        String msg = getString(R.string.progress_dialog_msg);
+        pDialog = new ProgressDialog(context);
+        pDialog.setMessage(msg);
+        pDialog.show();
     }
 
 }

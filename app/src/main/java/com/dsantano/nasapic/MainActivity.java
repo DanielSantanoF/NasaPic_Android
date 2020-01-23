@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,6 +36,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     NasaApi api = new NasaApi(apiKey);
     String photoUrl, dateSelected;
     DialogFragment datePickerFragment = DialogDatePickerFragment.newInstance(this);
+    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +47,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         btnDate = findViewById(R.id.imageButtonSelectDate);
         btnHistoric = findViewById(R.id.buttonHistoric);
-        ivphoto = findViewById(R.id.imageViewPhotoDetail);
+        ivphoto = findViewById(R.id.imageViewPhotoNasaPic);
+        progressBar = findViewById(R.id.progressBarLoadingFullNasaPic);
 
         btnDate.setOnClickListener(this);
         btnHistoric.setOnClickListener(this);
@@ -52,12 +56,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         ivphoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(
-                        MainActivity.this,
-                        DetailPhotoActivity.class
-                );
-                i.putExtra("photoUrl", photoUrl);
-                startActivity(i);
+                if(photoUrl.contains("https://www.youtube.com")){
+                    Intent webIntent = new Intent(Intent.ACTION_VIEW,
+                            Uri.parse(photoUrl));
+                    MainActivity.this.startActivity(webIntent);
+                } else {
+                    Intent i = new Intent(
+                            MainActivity.this,
+                            DetailPhotoActivity.class
+                    );
+                    i.putExtra("photoUrl", photoUrl);
+                    startActivity(i);
+                }
             }
         });
     }
@@ -100,30 +110,62 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         NasaPicture result;
 
         @Override
+        protected void onPreExecute() {
+            txtTittle = findViewById(R.id.textViewPhotoTittleNasaPic);
+            txtDescription = findViewById(R.id.textViewPhotoDescriptionNasaPic);
+            txtdate = findViewById(R.id.textViewPhotoNasaPic);
+            ivphoto = findViewById(R.id.imageViewPhotoNasaPic);
+            btnDate = findViewById(R.id.imageButtonSelectDate);
+            btnHistoric = findViewById(R.id.buttonHistoric);
+            txtTittle.setVisibility(View.GONE);
+            txtDescription.setVisibility(View.GONE);
+            txtdate.setVisibility(View.GONE);
+            ivphoto.setVisibility(View.GONE);
+            btnDate.setVisibility(View.GONE);
+            btnHistoric.setVisibility(View.GONE);
+        }
+
+        @Override
         protected NasaPicture doInBackground(Void... voids) {
             result = api.getPicOfToday();
             return result;
-            //return null;
         }
 
         @Override
         protected void onPostExecute(NasaPicture nasaPicture) {
-            txtTittle = findViewById(R.id.textViewPhotoDetailTittle);
-            txtDescription = findViewById(R.id.textViewPhotoDetailDescription);
-            txtdate = findViewById(R.id.textViewPhotoDetailDate);
-            ivphoto = findViewById(R.id.imageViewPhotoDetail);
+
+            progressBar.setVisibility(View.GONE);
+            btnDate.setVisibility(View.VISIBLE);
+            btnHistoric.setVisibility(View.VISIBLE);
+            txtTittle.setVisibility(View.VISIBLE);
+            txtDescription.setVisibility(View.VISIBLE);
+            txtdate.setVisibility(View.VISIBLE);
+            ivphoto.setVisibility(View.VISIBLE);
 
             photoUrl = nasaPicture.getUrl();
             txtTittle.setText(nasaPicture.getTitle());
             txtdate.setText(nasaPicture.getDate());
             txtDescription.setText(nasaPicture.getExplanation());
             txtDescription.setMovementMethod(new ScrollingMovementMethod());
-            Glide
-                    .with(MainActivity.this)
-                    .load(photoUrl)
-                    .error(R.drawable.ic_no_image_loaded)
-                    .thumbnail(Glide.with(MainActivity.this).load(R.drawable.loading_killer_whale_gif).centerCrop())
-                    .into(ivphoto);
+            if(photoUrl.contains("www.youtube")) {
+                String urlThumbnailYoutube = photoUrl.split("/")[4];
+                String thumbnailId = urlThumbnailYoutube.split("\\?")[0];
+                String youtubeUrl = "https://img.youtube.com/vi/" + thumbnailId +"/hqdefault.jpg";
+                Glide
+                        .with(MainActivity.this)
+                        .load(youtubeUrl)
+                        .error(Glide.with(MainActivity.this).load(R.drawable.ic_youtube_logo))
+                        .thumbnail(Glide.with(MainActivity.this).load(R.drawable.loading_killer_whale_gif).centerCrop())
+                        .into(ivphoto);
+            } else {
+                Glide
+                        .with(MainActivity.this)
+                        .load(photoUrl)
+                        .error(Glide.with(MainActivity.this).load(R.drawable.ic_no_image_loaded))
+                        .thumbnail(Glide.with(MainActivity.this).load(R.drawable.loading_killer_whale_gif).centerCrop())
+                        .into(ivphoto);
+            }
+
 //            photoUrl = "https://apod.nasa.gov/apod/image/2001/QuadrantidsOrion_Horalek_960_annotated.jpg";
 //            txtTittle.setText("Quadrantid Meteors through Orion");
 //            txtdate.setText("2020 January 20");
@@ -132,7 +174,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //            Glide
 //                    .with(MainActivity.this)
 //                    .load("https://apod.nasa.gov/apod/image/2001/QuadrantidsOrion_Horalek_960_annotated.jpg")
-//                    .error(R.drawable.ic_no_image_loaded)
+//                    .error(Glide.with(MainActivity.this).load(R.drawable.ic_no_image_loaded))
 //                    .thumbnail(Glide.with(MainActivity.this).load(R.drawable.loading_killer_whale_gif).centerCrop())
 //                    .into(ivphoto);
         }

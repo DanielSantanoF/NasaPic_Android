@@ -46,7 +46,7 @@
         app:layout_constraintTop_toTopOf="@+id/guideline" />
 
     <ImageView
-        android:id="@+id/imageViewPhotoDetail"
+        android:id="@+id/imageViewPhotoNasaPic"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:contentDescription="@string/content_description_image_from_api"
@@ -65,7 +65,7 @@
         app:layout_constraintGuide_percent="0.60465115" />
 
     <TextView
-        android:id="@+id/textViewPhotoDetailDate"
+        android:id="@+id/textViewPhotoNasaPic"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:gravity="right"
@@ -85,7 +85,7 @@
         app:layout_constraintGuide_percent="0.67" />
 
     <TextView
-        android:id="@+id/textViewPhotoDetailTittle"
+        android:id="@+id/textViewPhotoTittleNasaPic"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:text="TextView"
@@ -97,7 +97,7 @@
         app:layout_constraintTop_toTopOf="@+id/guideline6" />
 
     <TextView
-        android:id="@+id/textViewPhotoDetailDescription"
+        android:id="@+id/textViewPhotoDescriptionNasaPic"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:text="TextView"
@@ -113,5 +113,15 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.63" />
+
+    <ProgressBar
+        android:id="@+id/progressBarLoadingFullNasaPic"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="0dp"
+        android:layout_height="200dp"
+        android:layout_marginBottom="260dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,14 +1,19 @@
 package com.dsantano.nasapic;
 
+import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.dsantano.nasapic.api.NasaPicture;
@@ -42,16 +47,33 @@ public class MyNasaPictureRecyclerViewAdapter extends RecyclerView.Adapter<MyNas
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
-        Glide
-                .with(ctx)
-                .load(holder.mItem.getUrl())
-                .error(R.drawable.ic_art_and_design)
-                .thumbnail(Glide.with(ctx).load(R.drawable.loading_killer_whale_gif).centerCrop())
-                .into(holder.ivPhoto);
+        if(holder.mItem.getUrl().contains("www.youtube")){
+            String urlThumbnailYoutube = holder.mItem.getUrl().split("/")[4];
+            String thumbnailId = urlThumbnailYoutube.split("\\?")[0];
+            String youtubeUrl = "https://img.youtube.com/vi/" + thumbnailId +"/hqdefault.jpg";
+            Glide
+                    .with(ctx)
+                    .load(youtubeUrl)
+                    .error(Glide.with(ctx).load(R.drawable.ic_youtube_logo))
+                    .thumbnail(Glide.with(ctx).load(R.drawable.loading_killer_whale_gif).centerCrop())
+                    .into(holder.ivPhoto);
+        } else {
+            Glide
+                    .with(ctx)
+                    .load(holder.mItem.getUrl())
+                    .error(Glide.with(ctx).load(R.drawable.ic_no_image_loaded))
+                    .thumbnail(Glide.with(ctx).load(R.drawable.loading_killer_whale_gif).centerCrop())
+                    .into(holder.ivPhoto);
+        }
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(holder.mItem.getUrl().contains("https://www.youtube.com")){
+                    Intent webIntent = new Intent(Intent.ACTION_VIEW,
+                            Uri.parse(holder.mItem.getUrl()));
+                    ctx.startActivity(webIntent);
+                } else {
                     Intent intent = new Intent(
                             ctx,
                             PhotoDetailsActivity.class
@@ -62,7 +84,7 @@ public class MyNasaPictureRecyclerViewAdapter extends RecyclerView.Adapter<MyNas
                     intent.putExtra("nasaDateSelected", holder.mItem.getDate());
                     ctx.startActivity(intent);
                 }
-            //}
+            }
         });
 
     }
