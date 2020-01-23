@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     String apiKey = "vOn6qgqSS0M84sxymRERfRPyAjMc9M9DF6kZ43AS";
     TextView txtTittle, txtDescription, txtdate;
-    ImageView ivphoto;
+    ImageView ivphoto, icYoutube;
     ImageButton btnDate;
     Button btnHistoric;
     NasaApi api = new NasaApi(apiKey);
@@ -123,6 +123,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             txtDescription = findViewById(R.id.textViewPhotoDescriptionNasaPic);
             txtdate = findViewById(R.id.textViewPhotoNasaPic);
             ivphoto = findViewById(R.id.imageViewPhotoNasaPic);
+            icYoutube = findViewById(R.id.imageViewPhotoNasaPic);
             btnDate = findViewById(R.id.imageButtonSelectDate);
             btnHistoric = findViewById(R.id.buttonHistoric);
             txtTittle.setVisibility(View.GONE);
@@ -160,6 +161,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 UrlToUrlThumbnail transformer = new UrlToUrlThumbnail(photoUrl);
                 urlToLoad = transformer.urlToThumbnail();
                 errorToLoad = R.drawable.ic_youtube_logo;
+                icYoutube.setVisibility(View.VISIBLE);
             } else {
                 urlToLoad = photoUrl;
                 errorToLoad = R.drawable.ic_no_image_loaded;

@@ -19,7 +19,7 @@ import java.util.Objects;
 public class PhotoDetailsActivity extends AppCompatActivity {
 
     String photoUrl, tittle, description, date, urlToLoad;
-    ImageView ivPhoto;
+    ImageView ivPhoto, icYoutube;
     int errorToLoad;
     TextView txtTittle, txtDate, txtDescription;
     DateTransformer dateTransformer = new DateTransformer();
@@ -35,6 +35,7 @@ public class PhotoDetailsActivity extends AppCompatActivity {
         date = Objects.requireNonNull(getIntent().getExtras()).getString("nasaDateSelected");
 
         ivPhoto = findViewById(R.id.imageViewPhotoNasaPic);
+        icYoutube = findViewById(R.id.imageViewYoutubeLogo);
         txtTittle = findViewById(R.id.textViewPhotoTittleNasaPic);
         txtDate = findViewById(R.id.textViewPhotoNasaPic);
         txtDescription = findViewById(R.id.textViewPhotoDescriptionNasaPic);
@@ -48,6 +49,7 @@ public class PhotoDetailsActivity extends AppCompatActivity {
             UrlToUrlThumbnail transformer = new UrlToUrlThumbnail(photoUrl);
             urlToLoad = transformer.urlToThumbnail();
             errorToLoad = R.drawable.ic_youtube_logo;
+            icYoutube.setVisibility(View.VISIBLE);
         } else {
             urlToLoad = photoUrl;
             errorToLoad = R.drawable.ic_no_image_loaded;

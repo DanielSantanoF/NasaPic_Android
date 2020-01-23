@@ -24,7 +24,7 @@ public class EspecificDatePhotoActivity extends AppCompatActivity {
 
     String apiKey = "vOn6qgqSS0M84sxymRERfRPyAjMc9M9DF6kZ43AS";
     TextView txtTittle, txtDescription, txtdate;
-    ImageView ivphoto;
+    ImageView ivphoto, icYoutube;
     NasaApi api = new NasaApi(apiKey);
     String photoDate, photoUrl, urlToLoad;
     ProgressBar progressBar;
@@ -73,6 +73,7 @@ public class EspecificDatePhotoActivity extends AppCompatActivity {
             txtDescription = findViewById(R.id.textViewPhotoDescriptionNasaPic);
             txtdate = findViewById(R.id.textViewPhotoNasaPic);
             ivphoto = findViewById(R.id.imageViewPhotoNasaPic);
+            icYoutube = findViewById(R.id.imageViewYoutubeLogo);
             txtTittle.setVisibility(View.GONE);
             txtDescription.setVisibility(View.GONE);
             txtdate.setVisibility(View.GONE);
@@ -107,6 +108,7 @@ public class EspecificDatePhotoActivity extends AppCompatActivity {
                 UrlToUrlThumbnail transformer = new UrlToUrlThumbnail(photoUrl);
                 urlToLoad = transformer.urlToThumbnail();
                 errorToLoad = R.drawable.ic_youtube_logo;
+                icYoutube.setVisibility(View.VISIBLE);
             } else {
                 urlToLoad = photoUrl;
                 errorToLoad = R.drawable.ic_no_image_loaded;
