@@ -123,7 +123,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             txtDescription = findViewById(R.id.textViewPhotoDescriptionNasaPic);
             txtdate = findViewById(R.id.textViewPhotoNasaPic);
             ivphoto = findViewById(R.id.imageViewPhotoNasaPic);
-            icYoutube = findViewById(R.id.imageViewPhotoNasaPic);
+            icYoutube = findViewById(R.id.imageViewYoutubeLogo);
             btnDate = findViewById(R.id.imageButtonSelectDate);
             btnHistoric = findViewById(R.id.buttonHistoric);
             txtTittle.setVisibility(View.GONE);
