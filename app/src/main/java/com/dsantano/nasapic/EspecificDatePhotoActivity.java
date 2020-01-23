@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.dsantano.nasapic.api.NasaApi;
 import com.dsantano.nasapic.api.NasaPicture;
+import com.dsantano.nasapic.urlToUrlThumbnail.UrlToUrlThumbnail;
 
 import java.util.Objects;
 
@@ -24,8 +25,9 @@ public class EspecificDatePhotoActivity extends AppCompatActivity {
     TextView txtTittle, txtDescription, txtdate;
     ImageView ivphoto;
     NasaApi api = new NasaApi(apiKey);
-    String photoDate, photoUrl;
+    String photoDate, photoUrl, urlToLoad;
     ProgressBar progressBar;
+    int errorToLoad;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,23 +102,19 @@ public class EspecificDatePhotoActivity extends AppCompatActivity {
             txtDescription.setText(nasaPicture.getExplanation());
             txtDescription.setMovementMethod(new ScrollingMovementMethod());
             if(photoUrl.contains("www.youtube")) {
-                String urlThumbnailYoutube = photoUrl.split("/")[4];
-                String thumbnailId = urlThumbnailYoutube.split("\\?")[0];
-                String youtubeUrl = "https://img.youtube.com/vi/" + thumbnailId +"/hqdefault.jpg";
-                Glide
-                        .with(EspecificDatePhotoActivity.this)
-                        .load(youtubeUrl)
-                        .error(Glide.with(EspecificDatePhotoActivity.this).load(R.drawable.ic_youtube_logo))
-                        .thumbnail(Glide.with(EspecificDatePhotoActivity.this).load(R.drawable.loading_killer_whale_gif).centerCrop())
-                        .into(ivphoto);
+                UrlToUrlThumbnail transformer = new UrlToUrlThumbnail(photoUrl);
+                urlToLoad = transformer.urlToThumbnail();
+                errorToLoad = R.drawable.ic_youtube_logo;
             } else {
-                Glide
-                        .with(EspecificDatePhotoActivity.this)
-                        .load(nasaPicture.getUrl())
-                        .error(Glide.with(EspecificDatePhotoActivity.this).load(R.drawable.ic_no_image_loaded))
-                        .thumbnail(Glide.with(EspecificDatePhotoActivity.this).load(R.drawable.loading_killer_whale_gif).centerCrop())
-                        .into(ivphoto);
+                urlToLoad = photoUrl;
+                errorToLoad = R.drawable.ic_no_image_loaded;
             }
+            Glide
+                    .with(EspecificDatePhotoActivity.this)
+                    .load(urlToLoad)
+                    .error(Glide.with(EspecificDatePhotoActivity.this).load(errorToLoad))
+                    .thumbnail(Glide.with(EspecificDatePhotoActivity.this).load(R.drawable.loading_killer_whale_gif).centerCrop())
+                    .into(ivphoto);
         }
     }
 }

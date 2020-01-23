@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.dsantano.nasapic.api.NasaPicture;
+import com.dsantano.nasapic.urlToUrlThumbnail.UrlToUrlThumbnail;
 
 import java.util.List;
 
@@ -30,6 +31,8 @@ public class MyNasaPictureRecyclerViewAdapter extends RecyclerView.Adapter<MyNas
     private int layoutPlantilla;
     private List<NasaPicture> mValues;
     private INasaPictureListener mListener;
+    String urlToLoad;
+    int errorToLoad;
 
     public MyNasaPictureRecyclerViewAdapter(Context ctx, int layoutPlantilla, List<NasaPicture> mValues) {
         this.ctx = ctx;
@@ -47,24 +50,20 @@ public class MyNasaPictureRecyclerViewAdapter extends RecyclerView.Adapter<MyNas
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
-        if(holder.mItem.getUrl().contains("www.youtube")){
-            String urlThumbnailYoutube = holder.mItem.getUrl().split("/")[4];
-            String thumbnailId = urlThumbnailYoutube.split("\\?")[0];
-            String youtubeUrl = "https://img.youtube.com/vi/" + thumbnailId +"/hqdefault.jpg";
-            Glide
-                    .with(ctx)
-                    .load(youtubeUrl)
-                    .error(Glide.with(ctx).load(R.drawable.ic_youtube_logo))
-                    .thumbnail(Glide.with(ctx).load(R.drawable.loading_killer_whale_gif).centerCrop())
-                    .into(holder.ivPhoto);
+        if(holder.mItem.getUrl().contains("www.youtube")) {
+            UrlToUrlThumbnail transformer = new UrlToUrlThumbnail(holder.mItem.getUrl());
+            urlToLoad = transformer.urlToThumbnail();
+            errorToLoad = R.drawable.ic_youtube_logo;
         } else {
-            Glide
-                    .with(ctx)
-                    .load(holder.mItem.getUrl())
-                    .error(Glide.with(ctx).load(R.drawable.ic_no_image_loaded))
-                    .thumbnail(Glide.with(ctx).load(R.drawable.loading_killer_whale_gif).centerCrop())
-                    .into(holder.ivPhoto);
+            urlToLoad = holder.mItem.getUrl();
+            errorToLoad = R.drawable.ic_no_image_loaded;
         }
+        Glide
+                .with(ctx)
+                .load(urlToLoad)
+                .error(Glide.with(ctx).load(errorToLoad))
+                .thumbnail(Glide.with(ctx).load(R.drawable.loading_killer_whale_gif).centerCrop())
+                .into(holder.ivPhoto);
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
