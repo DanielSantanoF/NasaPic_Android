@@ -21,7 +21,8 @@ import com.dsantano.nasapic.api.NasaApi;
 import com.dsantano.nasapic.api.NasaPicture;
 import com.dsantano.nasapic.datePicker.DialogDatePickerFragment;
 import com.dsantano.nasapic.datePicker.IDatePickerListener;
-import com.dsantano.nasapic.urlToUrlThumbnail.UrlToUrlThumbnail;
+import com.dsantano.nasapic.transformations.DateTransformer;
+import com.dsantano.nasapic.transformations.UrlToUrlThumbnail;
 
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
@@ -39,6 +40,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     DialogFragment datePickerFragment = DialogDatePickerFragment.newInstance(this);
     ProgressBar progressBar;
     int errorToLoad;
+    DateTransformer dateTransformer = new DateTransformer();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -150,7 +152,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             photoUrl = nasaPicture.getUrl();
             txtTittle.setText(nasaPicture.getTitle());
-            txtdate.setText(nasaPicture.getDate());
+
+            txtdate.setText(dateTransformer.dateTransformation(nasaPicture.getDate()));
             txtDescription.setText(nasaPicture.getExplanation());
             txtDescription.setMovementMethod(new ScrollingMovementMethod());
             if(photoUrl.contains("www.youtube")) {

@@ -1,23 +1,19 @@
 package com.dsantano.nasapic;
 
-import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
-import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.dsantano.nasapic.api.NasaPicture;
-import com.dsantano.nasapic.urlToUrlThumbnail.UrlToUrlThumbnail;
+import com.dsantano.nasapic.transformations.DateTransformer;
+import com.dsantano.nasapic.transformations.UrlToUrlThumbnail;
 
 import java.util.List;
 
@@ -33,6 +29,7 @@ public class MyNasaPictureRecyclerViewAdapter extends RecyclerView.Adapter<MyNas
     private INasaPictureListener mListener;
     String urlToLoad;
     int errorToLoad;
+    DateTransformer dateTransformer = new DateTransformer();
 
     public MyNasaPictureRecyclerViewAdapter(Context ctx, int layoutPlantilla, List<NasaPicture> mValues) {
         this.ctx = ctx;
@@ -50,6 +47,7 @@ public class MyNasaPictureRecyclerViewAdapter extends RecyclerView.Adapter<MyNas
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
+        holder.txtDate.setText(dateTransformer.dateTransformation(holder.mItem.getDate()));
         if(holder.mItem.getUrl().contains("www.youtube")) {
             UrlToUrlThumbnail transformer = new UrlToUrlThumbnail(holder.mItem.getUrl());
             urlToLoad = transformer.urlToThumbnail();
@@ -68,21 +66,16 @@ public class MyNasaPictureRecyclerViewAdapter extends RecyclerView.Adapter<MyNas
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(holder.mItem.getUrl().contains("https://www.youtube.com")){
-                    Intent webIntent = new Intent(Intent.ACTION_VIEW,
-                            Uri.parse(holder.mItem.getUrl()));
-                    ctx.startActivity(webIntent);
-                } else {
-                    Intent intent = new Intent(
-                            ctx,
-                            PhotoDetailsActivity.class
-                    );
-                    intent.putExtra("nasaPhotoSelected", holder.mItem.getUrl());
-                    intent.putExtra("nasaTittleSelected", holder.mItem.getTitle());
-                    intent.putExtra("nasaDescriptionSelected", holder.mItem.getExplanation());
-                    intent.putExtra("nasaDateSelected", holder.mItem.getDate());
-                    ctx.startActivity(intent);
-                }
+                Intent intent = new Intent(
+                        ctx,
+                        PhotoDetailsActivity.class
+                );
+                intent.putExtra("nasaPhotoSelected", holder.mItem.getUrl());
+                intent.putExtra("nasaTittleSelected", holder.mItem.getTitle());
+                intent.putExtra("nasaDescriptionSelected", holder.mItem.getExplanation());
+                intent.putExtra("nasaDateSelected", holder.mItem.getDate());
+                ctx.startActivity(intent);
+
             }
         });
 
@@ -96,6 +89,7 @@ public class MyNasaPictureRecyclerViewAdapter extends RecyclerView.Adapter<MyNas
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
         public final ImageView ivPhoto;
+        public final TextView txtDate;
         public final TextView mContentView;
         public NasaPicture mItem;
 
@@ -103,6 +97,7 @@ public class MyNasaPictureRecyclerViewAdapter extends RecyclerView.Adapter<MyNas
             super(view);
             mView = view;
             ivPhoto = view.findViewById(R.id.imageViewPhotoHistoric);
+            txtDate = view.findViewById(R.id.textViewDateHistoric);
             mContentView = (TextView) view.findViewById(R.id.content);
         }
 

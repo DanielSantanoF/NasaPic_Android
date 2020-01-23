@@ -4,4 +4,5 @@
     <color name="colorPrimaryDark">#002171</color>
     <color name="colorAccent">#006064</color>
     <color name="colorPurpleButtons">#4A148C</color>
+    <color name="black_background_opacity">#8D000000</color>
 </resources>

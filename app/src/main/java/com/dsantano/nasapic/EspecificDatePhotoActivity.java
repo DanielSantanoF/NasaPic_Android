@@ -15,7 +15,8 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.dsantano.nasapic.api.NasaApi;
 import com.dsantano.nasapic.api.NasaPicture;
-import com.dsantano.nasapic.urlToUrlThumbnail.UrlToUrlThumbnail;
+import com.dsantano.nasapic.transformations.DateTransformer;
+import com.dsantano.nasapic.transformations.UrlToUrlThumbnail;
 
 import java.util.Objects;
 
@@ -28,6 +29,7 @@ public class EspecificDatePhotoActivity extends AppCompatActivity {
     String photoDate, photoUrl, urlToLoad;
     ProgressBar progressBar;
     int errorToLoad;
+    DateTransformer dateTransformer = new DateTransformer();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,7 +100,7 @@ public class EspecificDatePhotoActivity extends AppCompatActivity {
 
             photoUrl = nasaPicture.getUrl();
             txtTittle.setText(nasaPicture.getTitle());
-            txtdate.setText(nasaPicture.getDate());
+            txtdate.setText(dateTransformer.dateTransformation(nasaPicture.getDate()));
             txtDescription.setText(nasaPicture.getExplanation());
             txtDescription.setMovementMethod(new ScrollingMovementMethod());
             if(photoUrl.contains("www.youtube")) {

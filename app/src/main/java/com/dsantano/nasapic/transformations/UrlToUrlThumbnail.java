@@ -1,4 +1,4 @@
-package com.dsantano.nasapic.urlToUrlThumbnail;
+package com.dsantano.nasapic.transformations;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
