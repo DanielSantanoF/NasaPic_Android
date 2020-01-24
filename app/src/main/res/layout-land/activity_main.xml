@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fadeScrollbars="true"
+    android:padding="4dp"
+    tools:context=".MainActivity">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.85" />
+
+    <ImageButton
+        android:id="@+id/imageButtonSelectDate"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:contentDescription="@string/content_description_icon_select_date"
+        android:scaleType="fitCenter"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline"
+        app:srcCompat="@drawable/ic_date_range_purple_24dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
+
+    <Button
+        android:id="@+id/buttonHistoric"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="@string/text_historic"
+        android:textColor="@color/colorPurpleButtons"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/imageButtonSelectDate"
+        app:layout_constraintTop_toTopOf="@+id/guideline" />
+
+    <ProgressBar
+        android:id="@+id/progressBarLoadingFullNasaPic"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="0dp"
+        android:layout_height="200dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ScrollView
+        android:id="@+id/scrollViewNasaPic"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <ImageView
+                android:id="@+id/imageViewPhotoNasaPic"
+                android:layout_width="match_parent"
+                android:layout_height="430dp"
+                android:contentDescription="@string/content_description_image_from_api"
+                android:scaleType="centerCrop"
+                app:srcCompat="@mipmap/ic_launcher"
+                tools:layout_editor_absoluteX="373dp"
+                tools:layout_editor_absoluteY="16dp" />
+
+            <ImageView
+                android:id="@+id/imageViewYoutubeLogo"
+                android:layout_width="match_parent"
+                android:layout_height="21dp"
+                android:contentDescription="@string/content_description_icon_youtube"
+                android:visibility="gone"
+                app:srcCompat="@drawable/ic_youtube_logo" />
+
+            <TextView
+                android:id="@+id/textViewDateNasaPic"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:text="TextView"
+                android:textSize="14sp"
+                android:textStyle="italic"
+                tools:layout_editor_absoluteX="382dp"
+                tools:layout_editor_absoluteY="467dp" />
+
+            <TextView
+                android:id="@+id/textViewPhotoTittleNasaPic"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="TextView"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                tools:layout_editor_absoluteX="371dp"
+                tools:layout_editor_absoluteY="496dp" />
+
+            <TextView
+                android:id="@+id/textViewPhotoDescriptionNasaPic"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="vertical"
+                android:text="TextView"
+                tools:layout_editor_absoluteX="376dp"
+                tools:layout_editor_absoluteY="655dp" />
+
+        </LinearLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
