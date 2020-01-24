@@ -71,7 +71,7 @@ public class EspecificDatePhotoActivity extends AppCompatActivity {
         protected void onPreExecute() {
             txtTittle = findViewById(R.id.textViewPhotoTittleNasaPic);
             txtDescription = findViewById(R.id.textViewPhotoDescriptionNasaPic);
-            txtdate = findViewById(R.id.textViewPhotoNasaPic);
+            txtdate = findViewById(R.id.textViewDateNasaPic);
             ivphoto = findViewById(R.id.imageViewPhotoNasaPic);
             icYoutube = findViewById(R.id.imageViewYoutubeLogo);
             txtTittle.setVisibility(View.GONE);
@@ -96,7 +96,7 @@ public class EspecificDatePhotoActivity extends AppCompatActivity {
 
             txtTittle = findViewById(R.id.textViewPhotoTittleNasaPic);
             txtDescription = findViewById(R.id.textViewPhotoDescriptionNasaPic);
-            txtdate = findViewById(R.id.textViewPhotoNasaPic);
+            txtdate = findViewById(R.id.textViewDateNasaPic);
             ivphoto = findViewById(R.id.imageViewPhotoNasaPic);
 
             photoUrl = nasaPicture.getUrl();

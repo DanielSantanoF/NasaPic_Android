@@ -121,7 +121,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         protected void onPreExecute() {
             txtTittle = findViewById(R.id.textViewPhotoTittleNasaPic);
             txtDescription = findViewById(R.id.textViewPhotoDescriptionNasaPic);
-            txtdate = findViewById(R.id.textViewPhotoNasaPic);
+            txtdate = findViewById(R.id.textViewDateNasaPic);
             ivphoto = findViewById(R.id.imageViewPhotoNasaPic);
             icYoutube = findViewById(R.id.imageViewYoutubeLogo);
             btnDate = findViewById(R.id.imageButtonSelectDate);

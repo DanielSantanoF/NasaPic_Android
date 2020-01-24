@@ -37,7 +37,7 @@ public class PhotoDetailsActivity extends AppCompatActivity {
         ivPhoto = findViewById(R.id.imageViewPhotoNasaPic);
         icYoutube = findViewById(R.id.imageViewYoutubeLogo);
         txtTittle = findViewById(R.id.textViewPhotoTittleNasaPic);
-        txtDate = findViewById(R.id.textViewPhotoNasaPic);
+        txtDate = findViewById(R.id.textViewDateNasaPic);
         txtDescription = findViewById(R.id.textViewPhotoDescriptionNasaPic);
         txtDescription.setMovementMethod(new ScrollingMovementMethod());
 
